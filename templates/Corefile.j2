@@ -1,14 +1,13 @@
-. {
-    cache 30
-    loop
-    reload 5s
-    loadbalance
-    health {
-        lameduck 5s
-    }
-    prometheus :9153
+.:53 {
+    forward . 8.8.8.8 1.1.1.1
     log
     errors
+    health
+    reload
+    loop
+    loadbalance
+    prometheus :9153
+    cache 30
     header {
         response set ra
     }
@@ -16,7 +15,7 @@
 
 socialdevs.site {
     hosts {
-        # Ingress / locales administracion
+        # Ingress / locales administración
         192.168.0.33 traefik.socialdevs.site
         192.168.0.33 grafana.socialdevs.site
         192.168.0.33 prometheus.socialdevs.site
@@ -24,8 +23,8 @@ socialdevs.site {
         192.168.0.33 jenkins.socialdevs.site
         192.168.0.33 nginx.socialdevs.site
         192.168.0.33 longhorn.socialdevs.site
-        
-        # Publico
+
+        # Público
         192.168.0.33 socialdevs.site
         192.168.0.33 public.socialdevs.site
 
@@ -46,6 +45,7 @@ socialdevs.site {
         192.168.0.30 loadbalancer1.socialdevs.site
         192.168.0.31 loadbalancer2.socialdevs.site
     }
+    fallthrough
     log
     errors
 }
